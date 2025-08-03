@@ -1,4 +1,4 @@
-import {StyleShheet, Text, View, Image, Button, Pressable} from 'react-native';
+import {StyleSheet, Text, View, Image, Button, Pressable} from 'react-native';
 
 import colors from '../constants/colors.js';
 import sizings from '../constants/sizings.js';
@@ -15,7 +15,8 @@ const WelcomeView = () => {
     </View>
   );
 }
-const styles = StyleShheet.create({
+export default WelcomeView;
+const styles = StyleSheet.create({
     container:{
 
     },

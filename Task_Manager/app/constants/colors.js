@@ -23,3 +23,4 @@ const dark = {
   warning: '#FFB74D',
   error: '#EF5350'
 };
+export default { light, dark };

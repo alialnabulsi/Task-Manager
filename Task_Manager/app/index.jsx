@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import WelcomeView from "./views/welcomeView";
+import WelcomeView from "./welcomeView";
 export default function Index() {
   return (
     <View>

@@ -36,4 +36,9 @@ export default {
     medium: 8,
     large: 12,
   },
+
+  welcomeImageSize: {
+    width: width * 0.3, // 30% of screen width
+    height: width * 0.3, // Maintain aspect ratio
+  }
 };

@@ -8,7 +8,7 @@ import welcomeImage from '../../assets/images/icon.png';
 const WelcomeView = () => {
   return (
     <View style={styles.container}>
-      <Image source ={welcomeImage}></Image>
+      <Image source ={welcomeImage} style={styles.welcomeImageStyle}></Image>
       <Text style={styles.h1Text}>Task Manager</Text>
       <Text style={styles.h2Text}>Organize your day!</Text>
       <Pressable style={styles.button}></Pressable>
@@ -18,10 +18,15 @@ const WelcomeView = () => {
 export default WelcomeView;
 const styles = StyleSheet.create({
     container:{
-
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.primary,
     },
-    welcomeImage:{
-
+    welcomeImageStyle:{
+        width:sizings.welcomeImageSize.width,
+        height:sizings.welcomeImageSize.height,
+        resizeMode: 'contain',
     },
     h1Text: {
        

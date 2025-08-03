@@ -3,7 +3,7 @@ import {StyleShheet, Text, View, Image, Button, Pressable} from 'react-native';
 import colors from '../constants/colors.js';
 import sizings from '../constants/sizings.js';
 
-import welcomeImage from '../assets/images/icon.png';
+import welcomeImage from '../../assets/images/icon.png';
 
 const WelcomeView = () => {
   return (

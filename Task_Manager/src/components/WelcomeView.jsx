@@ -1,34 +1,39 @@
-import { StyleSheet, Text, View, Image, Button, Pressable } from 'react-native';
-import { Link } from 'expo-router';
+// src/components/WelcomeView.jsx
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import colors from './constants/colors.js';
-import sizings from './constants/sizings.js';
+import colors from '../../constants/colors.js';
+import sizings from '../../constants/sizings.js';
+import welcomeImage from '../../assets/images/logo.png';
 
-import welcomeImage from '../assets/images/react-logo.png';
-
-const WelcomeView = () => {
+const WelcomeView = ({ onContinue }) => {
     return (
         <View style={styles.container}>
-            <Image source={welcomeImage} style={styles.welcomeImageStyle}></Image>
+            <Image source={welcomeImage} style={styles.welcomeImageStyle} />
             <Text style={styles.h1Text}>Task Manager</Text>
             <Text style={styles.h2Text}>Organize your day!</Text>
-            <Link href="/auth/loginView" asChild>
-                <Pressable style={styles.button}>
-                    <Text style={{ color: colors.white, fontWeight: 'bold' }}>Login</Text>
-                </Pressable>
-            </Link>
+            
+            <Pressable style={styles.button} onPress={onContinue}>
+                <MaterialIcons 
+                    name="arrow-forward" 
+                    size={30} 
+                    color={colors.light.success} 
+                />
+            </Pressable>
         </View>
     );
-}
+};
+
 export default WelcomeView;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.primary,
         paddingHorizontal: sizings.padding.large,
         paddingVertical: sizings.padding.xlarge,
-        justifyContent: 'center',    // center vertically
-        alignItems: 'center',        // center horizontally
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     welcomeImageStyle: {
@@ -56,16 +61,14 @@ const styles = StyleSheet.create({
     },
 
     button: {
+        justifyContent: 'center',
         backgroundColor: colors.secondary,
-        paddingVertical: sizings.padding.medium,
-        paddingHorizontal: sizings.padding.xxlarge,
+        paddingVertical: sizings.padding.ssmall,
+        paddingHorizontal: sizings.padding.xlarge,
         borderRadius: sizings.borderRadius.medium,
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        alignItems: 'center',  // center text horizontally inside button
-    },
+        borderColor: colors.light.primary,
+        borderWidth: 4,
+        alignItems: 'center',
+        paddingTop: sizings.padding.ssmall,
+    }
 });
-

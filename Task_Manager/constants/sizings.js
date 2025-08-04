@@ -24,6 +24,7 @@ export default {
     xxlarge: 40,
   },
   padding: {
+    ssmall: 2,
     small: 5,
     medium: 10,
     large: 15,
@@ -38,7 +39,7 @@ export default {
   },
 
   welcomeImageSize: {
-    width: width * 0.3, // 30% of screen width
-    height: width * 0.3, // Maintain aspect ratio
+    width: width * 0.5, // 30% of screen width
+    height: width * 0.5, // Maintain aspect ratio
   }
 };

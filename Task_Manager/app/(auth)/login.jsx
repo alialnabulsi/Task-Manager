@@ -28,7 +28,7 @@ export default function LoginScreen() {
     }
 
     setIsLoading(true);
-    
+
     try {
       // TODO: Replace with your actual login API call
       // For now, we'll simulate a login
@@ -57,65 +57,68 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <MaterialIcons name="task-alt" size={60} color={colors.primary} />
-        <Text style={styles.title}>Welcome Back!</Text>
-        <Text style={styles.subtitle}>Sign in to your account</Text>
-      </View>
-
-      <View style={styles.form}>
-        <View style={styles.inputContainer}>
-          <MaterialIcons name="email" size={20} color={colors.light.secondary} />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-          />
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Welcome Back!</Text>
+          <Text style={styles.subtitle}>Sign in to your account</Text>
         </View>
 
-        <View style={styles.inputContainer}>
-          <MaterialIcons name="lock" size={20} color={colors.light.secondary} />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            autoComplete="password"
-          />
-          <Pressable onPress={() => setShowPassword(!showPassword)}>
-            <MaterialIcons 
-              name={showPassword ? "visibility" : "visibility-off"} 
-              size={20} 
-              color={colors.light.secondary} 
+        <View style={styles.form}>
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#4E7997"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
             />
+          </View>
+
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={[styles.input, showPassword ? {} : { paddingRight: 50 }]}
+              placeholder="Password"
+              placeholderTextColor="#4E7997"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+              autoComplete="password"
+            />
+            <Pressable 
+              style={styles.eyeIcon} 
+              onPress={() => setShowPassword(!showPassword)}
+            >
+              <MaterialIcons 
+                name={showPassword ? "visibility" : "visibility-off"} 
+                size={20} 
+                color="#4E7997" 
+              />
+            </Pressable>
+          </View>
+
+          <Pressable 
+            style={[styles.loginButton, isLoading && styles.buttonDisabled]} 
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.loginButtonText}>Sign In</Text>
+            )}
           </Pressable>
         </View>
+      </View>
 
-        <Pressable 
-          style={[styles.loginButton, isLoading && styles.buttonDisabled]} 
-          onPress={handleLogin}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color={colors.white} />
-          ) : (
-            <Text style={styles.loginButtonText}>Sign In</Text>
-          )}
-        </Pressable>
-
-        <View style={styles.signupContainer}>
-          <Text style={styles.signupText}>Don't have an account? </Text>
-          <Link href="/(auth)/signup" asChild>
-            <Pressable>
-              <Text style={styles.signupLink}>Sign Up</Text>
-            </Pressable>
-          </Link>
-        </View>
+      <View style={styles.footer}>
+        <Link href="/(auth)/signup" asChild>
+          <Pressable>
+            <Text style={styles.signupLink}>Don't have an account? Sign Up</Text>
+          </Pressable>
+        </Link>
       </View>
     </View>
   );
@@ -124,60 +127,74 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
-    paddingHorizontal: sizings.padding.large,
+    backgroundColor: '#F1F5F9', // Light gray background like HTML
+    justifyContent: 'space-between',
+  },
+  
+  content: {
+    flex: 1,
+    paddingHorizontal: 16,
   },
   
   header: {
     alignItems: 'center',
-    marginTop: sizings.margin.xxlarge,
-    marginBottom: sizings.margin.xlarge,
+    paddingTop: 20,
+    paddingBottom: 12,
   },
   
   title: {
-    fontSize: sizings.fontSize.h1,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: colors.dark.primary,
-    marginTop: sizings.margin.medium,
-    marginBottom: sizings.margin.small,
+    color: '#0E151B', // Dark text color from HTML
+    textAlign: 'center',
+    marginBottom: 8,
+    letterSpacing: -0.5,
   },
   
   subtitle: {
-    fontSize: sizings.fontSize.body,
-    color: colors.light.secondary,
+    fontSize: 16,
+    color: '#0E151B',
     textAlign: 'center',
+    fontWeight: '400',
   },
   
   form: {
-    flex: 1,
+    paddingTop: 12,
   },
   
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.light.border,
-    borderRadius: sizings.borderRadius.medium,
-    paddingHorizontal: sizings.padding.medium,
-    marginBottom: sizings.margin.medium,
-    backgroundColor: colors.light.background,
+  inputWrapper: {
+    position: 'relative',
+    marginBottom: 16,
+    maxWidth: 480, // Max width from HTML
   },
   
   input: {
-    flex: 1,
-    paddingVertical: sizings.padding.medium,
-    paddingHorizontal: sizings.padding.small,
-    fontSize: sizings.fontSize.body,
-    color: colors.dark.primary,
+    backgroundColor: '#E7EEF3', // Light blue-gray background from HTML
+    borderRadius: 12, // Rounded corners
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    fontSize: 16,
+    color: '#0E151B',
+    fontWeight: '400',
+    minHeight: 56, // Height matching HTML
+    borderWidth: 0, // No border like HTML
+  },
+  
+  eyeIcon: {
+    position: 'absolute',
+    right: 16,
+    top: 18,
+    padding: 4,
   },
   
   loginButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: sizings.padding.medium,
-    borderRadius: sizings.borderRadius.medium,
+    backgroundColor: '#1991E6', // Blue color from HTML
+    paddingVertical: 16,
+    borderRadius: 50, // Fully rounded button
     alignItems: 'center',
-    marginTop: sizings.margin.medium,
-    marginBottom: sizings.margin.large,
+    marginTop: 12,
+    minHeight: 48,
+    maxWidth: 480, // Max width from HTML
   },
   
   buttonDisabled: {
@@ -185,25 +202,24 @@ const styles = StyleSheet.create({
   },
   
   loginButtonText: {
-    color: colors.white,
-    fontSize: sizings.fontSize.button,
+    color: 'white',
+    fontSize: 16,
     fontWeight: 'bold',
+    letterSpacing: 0.25,
   },
   
-  signupContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  footer: {
     alignItems: 'center',
-  },
-  
-  signupText: {
-    fontSize: sizings.fontSize.body,
-    color: colors.light.secondary,
+    paddingBottom: 20,
+    paddingTop: 12,
+    paddingHorizontal: 16,
   },
   
   signupLink: {
-    fontSize: sizings.fontSize.body,
-    color: colors.primary,
-    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#4E7997', // Muted blue color from HTML
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    fontWeight: '400',
   },
 });

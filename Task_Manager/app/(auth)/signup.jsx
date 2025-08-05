@@ -99,160 +99,218 @@ export default function SignupScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.header}>
-        <MaterialIcons name="person-add" size={60} color={colors.primary} />
-        <Text style={styles.title}>Create Account</Text>
-        <Text style={styles.subtitle}>Join us to get organized!</Text>
-      </View>
-
-      <View style={styles.form}>
-        <View style={styles.inputContainer}>
-          <MaterialIcons name="person" size={20} color={colors.light.secondary} />
-          <TextInput
-            style={styles.input}
-            placeholder="Full Name"
-            value={formData.name}
-            onChangeText={(value) => handleInputChange('name', value)}
-            autoCapitalize="words"
-            autoComplete="name"
-          />
+    <View style={styles.container}>
+      <ScrollView 
+        style={styles.content} 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.header}>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>Join us to get organized!</Text>
         </View>
 
-        <View style={styles.inputContainer}>
-          <MaterialIcons name="email" size={20} color={colors.light.secondary} />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={formData.email}
-            onChangeText={(value) => handleInputChange('email', value)}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <MaterialIcons name="lock" size={20} color={colors.light.secondary} />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={formData.password}
-            onChangeText={(value) => handleInputChange('password', value)}
-            secureTextEntry={!showPassword}
-            autoComplete="new-password"
-          />
-          <Pressable onPress={() => setShowPassword(!showPassword)}>
-            <MaterialIcons 
-              name={showPassword ? "visibility" : "visibility-off"} 
-              size={20} 
-              color={colors.light.secondary} 
+        <View style={styles.form}>
+          <View style={styles.fieldContainer}>
+            <Text style={styles.fieldLabel}>Full Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your full name"
+              placeholderTextColor="#4E7997"
+              value={formData.name}
+              onChangeText={(value) => handleInputChange('name', value)}
+              autoCapitalize="words"
+              autoComplete="name"
             />
+          </View>
+
+          <View style={styles.fieldContainer}>
+            <Text style={styles.fieldLabel}>Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your email"
+              placeholderTextColor="#4E7997"
+              value={formData.email}
+              onChangeText={(value) => handleInputChange('email', value)}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+            />
+          </View>
+
+          <View style={styles.fieldContainer}>
+            <Text style={styles.fieldLabel}>Password</Text>
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Enter your password"
+                placeholderTextColor="#4E7997"
+                value={formData.password}
+                onChangeText={(value) => handleInputChange('password', value)}
+                secureTextEntry={!showPassword}
+                autoComplete="new-password"
+              />
+              <Pressable 
+                style={styles.eyeButton} 
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <MaterialIcons 
+                  name={showPassword ? "visibility" : "visibility-off"} 
+                  size={24} 
+                  color="#4E7997" 
+                />
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={styles.fieldContainer}>
+            <Text style={styles.fieldLabel}>Confirm Password</Text>
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Confirm your password"
+                placeholderTextColor="#4E7997"
+                value={formData.confirmPassword}
+                onChangeText={(value) => handleInputChange('confirmPassword', value)}
+                secureTextEntry={!showConfirmPassword}
+                autoComplete="new-password"
+              />
+              <Pressable 
+                style={styles.eyeButton} 
+                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                <MaterialIcons 
+                  name={showConfirmPassword ? "visibility" : "visibility-off"} 
+                  size={24} 
+                  color="#4E7997" 
+                />
+              </Pressable>
+            </View>
+          </View>
+
+          <Pressable 
+            style={[styles.signupButton, isLoading && styles.buttonDisabled]} 
+            onPress={handleSignup}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.signupButtonText}>Create Account</Text>
+            )}
           </Pressable>
         </View>
+      </ScrollView>
 
-        <View style={styles.inputContainer}>
-          <MaterialIcons name="lock-outline" size={20} color={colors.light.secondary} />
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChangeText={(value) => handleInputChange('confirmPassword', value)}
-            secureTextEntry={!showConfirmPassword}
-            autoComplete="new-password"
-          />
-          <Pressable onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-            <MaterialIcons 
-              name={showConfirmPassword ? "visibility" : "visibility-off"} 
-              size={20} 
-              color={colors.light.secondary} 
-            />
+      <View style={styles.footer}>
+        <Link href="/(auth)/login" asChild>
+          <Pressable>
+            <Text style={styles.loginLink}>Already have an account? Sign In</Text>
           </Pressable>
-        </View>
-
-        <Pressable 
-          style={[styles.signupButton, isLoading && styles.buttonDisabled]} 
-          onPress={handleSignup}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color={colors.white} />
-          ) : (
-            <Text style={styles.signupButtonText}>Create Account</Text>
-          )}
-        </Pressable>
-
-        <View style={styles.loginContainer}>
-          <Text style={styles.loginText}>Already have an account? </Text>
-          <Link href="/(auth)/login" asChild>
-            <Pressable>
-              <Text style={styles.loginLink}>Sign In</Text>
-            </Pressable>
-          </Link>
-        </View>
+        </Link>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
-    paddingHorizontal: sizings.padding.large,
+    backgroundColor: '#F1F5F9', // Light gray background matching login
+    justifyContent: 'space-between',
+  },
+  
+  content: {
+    flex: 1,
+  },
+  
+  scrollContent: {
+    paddingHorizontal: 16,
   },
   
   header: {
     alignItems: 'center',
-    marginTop: sizings.margin.xlarge,
-    marginBottom: sizings.margin.large,
+    paddingTop: 20,
+    paddingBottom: 12,
   },
   
   title: {
-    fontSize: sizings.fontSize.h1,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: colors.dark.primary,
-    marginTop: sizings.margin.medium,
-    marginBottom: sizings.margin.small,
+    color: '#0E151B', // Dark text color from HTML
+    textAlign: 'center',
+    marginBottom: 8,
+    letterSpacing: -0.5,
   },
   
   subtitle: {
-    fontSize: sizings.fontSize.body,
-    color: colors.light.secondary,
+    fontSize: 16,
+    color: '#0E151B',
     textAlign: 'center',
+    fontWeight: '400',
   },
   
   form: {
-    flex: 1,
-    paddingBottom: sizings.padding.xlarge,
+    paddingTop: 12,
   },
   
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.light.border,
-    borderRadius: sizings.borderRadius.medium,
-    paddingHorizontal: sizings.padding.medium,
-    marginBottom: sizings.margin.medium,
-    backgroundColor: colors.light.background,
+  fieldContainer: {
+    marginBottom: 16,
+    maxWidth: 480, // Max width from HTML
+  },
+  
+  fieldLabel: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#0E151B',
+    marginBottom: 8,
   },
   
   input: {
+    backgroundColor: '#E7EEF3', // Light blue-gray background from HTML
+    borderRadius: 12, // Rounded corners
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    fontSize: 16,
+    color: '#0E151B',
+    fontWeight: '400',
+    minHeight: 56, // Height matching HTML
+    borderWidth: 0, // No border like HTML
+  },
+  
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E7EEF3',
+    borderRadius: 12,
+    minHeight: 56,
+  },
+  
+  passwordInput: {
     flex: 1,
-    paddingVertical: sizings.padding.medium,
-    paddingHorizontal: sizings.padding.small,
-    fontSize: sizings.fontSize.body,
-    color: colors.dark.primary,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    fontSize: 16,
+    color: '#0E151B',
+    fontWeight: '400',
+    borderWidth: 0,
+  },
+  
+  eyeButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   
   signupButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: sizings.padding.medium,
-    borderRadius: sizings.borderRadius.medium,
+    backgroundColor: '#1991E6', // Blue color from HTML
+    paddingVertical: 16,
+    borderRadius: 50, // Fully rounded button
     alignItems: 'center',
-    marginTop: sizings.margin.medium,
-    marginBottom: sizings.margin.large,
+    marginTop: 12,
+    minHeight: 48,
+    maxWidth: 480, // Max width from HTML
   },
   
   buttonDisabled: {
@@ -260,26 +318,24 @@ const styles = StyleSheet.create({
   },
   
   signupButtonText: {
-    color: colors.white,
-    fontSize: sizings.fontSize.button,
+    color: 'white',
+    fontSize: 16,
     fontWeight: 'bold',
+    letterSpacing: 0.25,
   },
   
-  loginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  footer: {
     alignItems: 'center',
-    marginTop: sizings.margin.medium,
-  },
-  
-  loginText: {
-    fontSize: sizings.fontSize.body,
-    color: colors.light.secondary,
+    paddingBottom: 20,
+    paddingTop: 12,
+    paddingHorizontal: 16,
   },
   
   loginLink: {
-    fontSize: sizings.fontSize.body,
-    color: colors.primary,
-    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#4E7997', // Muted blue color from HTML
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    fontWeight: '400',
   },
 });

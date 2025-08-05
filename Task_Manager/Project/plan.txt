@@ -1,0 +1,73 @@
+step 1:Define App Idea & User Roles
+
+purpose: Managing projects at the company 
+roles: admin/manager
+
+step 2:UI/UX
+
+step 3: 
+	Page(1): Welcome Page
+		services: 1-naviagte to login or home page depending on the session
+		Data: triggers the route that checks the session info
+	
+	Page(2): Login/Sign up Page
+		services:
+			1- Login service: check if the credentials are valid or not and back to the user with home page or login error.
+				data: Email/username,Password
+
+			2-Sign up service: Registers the user valid credintials in the database with email validation
+				data: First name, Last name,Username, Email, DOB, phone number, captcha security.
+
+			3-forgot password service: send an email with a link to reset the password
+
+			data: email/phone number 
+
+	Page(3): Home Page
+		services:
+			1-Upcoming Deadlines service:first nearest 3 projects for the live time
+				data: trigger the service route to return the upcoming deadlines
+			2-This Week's priorities: displays projects and tasks with high priority.
+				data: start week day +  trigger the service route
+			
+	Page(4): Notifications Page
+		services:
+			1-Getting user notifications: retrieve the recent system and user notification.
+				data: last 20 notifications
+			2-View notification details: Displays the notification details
+				data: id
+			3-Delete notification: deletes the notification from the database.
+				data: id
+
+	Page(5 & 6): Profile and Settings
+		services:
+			1-Profile Display:
+				data: retrieve pfp, Full name, email, role.
+			2-Edit profile: 
+				data: edits the account details 
+			3-App notification
+				data: true or false
+			4-Dark theme
+				data: true or false
+			5-Account details
+				data: display all account details
+			6-Language:
+				data: 
+			7-Security:
+				data: change pass
+
+	
+	Page 7: Dashboard
+		services:
+			1-(Sort By) service: sort for all tasks
+				data: sort by(parameter)
+			2-Display tasks service: retrieve all tasks
+				data: trigger for the route
+			3-Add task: Add task to the dashboard
+				data: (task data) sent to the route to be registered
+			4-View Task details: display an editable task 
+				data: (id)
+			5-Completed sign: marks the task as completed
+				data: true or false
+			
+			
+	

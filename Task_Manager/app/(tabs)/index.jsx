@@ -1,148 +1,108 @@
-// app/(tabs)/index.jsx - Home Screen
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
-import { clearUserData } from '../../src/utils/storage';
-import colors from '../../constants/colors.js';
-import sizings from '../../constants/sizings.js';
+// app/(tabs)/index.jsx
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function HomeScreen() {
-  const handleLogout = () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Logout', 
-          style: 'destructive',
-          onPress: async () => {
-            await clearUserData();
-            router.replace('/(auth)/login');
-          }
-        }
-      ]
-    );
-  };
-
+const HomeScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <MaterialIcons name="task-alt" size={50} color={colors.primary} />
-        <Text style={styles.title}>Task Manager</Text>
-        <Text style={styles.subtitle}>Welcome to your dashboard!</Text>
+      
+        <Text style={styles.headerTitle}>Task Manager</Text>
       </View>
 
       <View style={styles.content}>
+        {/* Welcome Section */}
+        <Text style={styles.welcomeMessage}>Welcome to your dashboard!</Text>
+
+        {/* Quick Actions Section */}
         <Text style={styles.sectionTitle}>Quick Actions</Text>
-        
-        <Pressable style={styles.actionCard}>
-          <MaterialIcons name="add-task" size={30} color={colors.primary} />
-          <View style={styles.actionText}>
-            <Text style={styles.actionTitle}>Create New Task</Text>
-            <Text style={styles.actionSubtitle}>Add a new task to your list</Text>
-          </View>
-          <MaterialIcons name="chevron-right" size={24} color={colors.light.secondary} />
-        </Pressable>
+        <View style={styles.quickActionsContainer}>
+          {/* Create New Task Card */}
+          <TouchableOpacity style={styles.actionCard}>
+            <View>
+              <Text style={styles.actionTitle}>Create New Task</Text>
+              <Text style={styles.actionDescription}>Add a new task to your list</Text>
+            </View>
+            <Ionicons name="add-circle-outline" size={36} color="#000" />
+          </TouchableOpacity>
 
-        <Pressable style={styles.actionCard}>
-          <MaterialIcons name="today" size={30} color={colors.secondary} />
-          <View style={styles.actionText}>
-            <Text style={styles.actionTitle}>Today's Tasks</Text>
-            <Text style={styles.actionSubtitle}>View tasks due today</Text>
-          </View>
-          <MaterialIcons name="chevron-right" size={24} color={colors.light.secondary} />
-        </Pressable>
+          {/* Today's Tasks Card */}
+          <TouchableOpacity style={styles.actionCard}>
+            <View>
+              <Text style={styles.actionTitle}>Today's Tasks</Text>
+              <Text style={styles.actionDescription}>View and manage tasks for today</Text>
+            </View>
+            <Ionicons name="calendar-outline" size={36} color="#000" />
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <Pressable style={styles.logoutButton} onPress={handleLogout}>
-        <MaterialIcons name="logout" size={20} color={colors.white} />
-        <Text style={styles.logoutText}>Logout</Text>
-      </Pressable>
-    </View>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
-    paddingHorizontal: sizings.padding.large,
-    paddingTop: sizings.padding.xlarge,
+    backgroundColor: '#f8f8f8',
   },
-  
-  header: {
+   header: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: sizings.margin.xlarge,
+    marginBottom: 20,
+    position: 'relative',
+    marginTop:30, 
   },
-  
-  title: {
-    fontSize: sizings.fontSize.h1,
+
+  headerTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
-    color: colors.dark.primary,
-    marginTop: sizings.margin.small,
   },
-  
-  subtitle: {
-    fontSize: sizings.fontSize.body,
-    color: colors.light.secondary,
-    marginTop: sizings.margin.xsmall,
-  },
-  
   content: {
-    flex: 1,
+    padding: 20,
   },
-  
+  welcomeMessage: {
+    fontSize: 18,
+    color: '#666',
+    marginBottom: 20,
+  },
   sectionTitle: {
-    fontSize: sizings.fontSize.h3,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: colors.dark.primary,
-    marginBottom: sizings.margin.medium,
+    marginBottom: 15,
   },
-  
+  quickActionsContainer: {
+    gap: 15,
+  },
   actionCard: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: colors.light.background,
-    padding: sizings.padding.medium,
-    borderRadius: sizings.borderRadius.medium,
-    marginBottom: sizings.margin.medium,
-    borderWidth: 1,
-    borderColor: colors.light.border,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
-  
-  actionText: {
-    flex: 1,
-    marginLeft: sizings.margin.medium,
-  },
-  
   actionTitle: {
-    fontSize: sizings.fontSize.button,
-    fontWeight: '600',
-    color: colors.dark.primary,
-  },
-  
-  actionSubtitle: {
-    fontSize: sizings.fontSize.small,
-    color: colors.light.secondary,
-    marginTop: 2,
-  },
-  
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.danger,
-    paddingVertical: sizings.padding.medium,
-    borderRadius: sizings.borderRadius.medium,
-    marginBottom: sizings.margin.large,
-  },
-  
-  logoutText: {
-    color: colors.white,
-    fontSize: sizings.fontSize.button,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginLeft: sizings.margin.small,
+  },
+  actionDescription: {
+    fontSize: 14,
+    color: '#888',
   },
 });
 
+export default HomeScreen;

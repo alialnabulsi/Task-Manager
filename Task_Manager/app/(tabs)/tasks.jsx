@@ -1,111 +1,136 @@
-// ===== SEPARATE FILES =====
+import { router } from 'expo-router';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons'; // Example using Ionicons
 
-// app/(tabs)/tasks.jsx - Tasks Screen
-import { View, Text, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import colors from '../../constants/colors.js';
-import sizings from '../../constants/sizings.js';
+const tasksData = [
+  { id: '1', title: 'Review project proposal', dueDate: 'Due Today', checked: false },
+  { id: '2', title: 'Schedule team meeting', dueDate: 'Due Tomorrow', checked: false },
+  { id: '3', title: 'Prepare presentation slides', dueDate: 'Due in 2 days', checked: false },
+  { id: '4', title: 'Follow up with client', dueDate: 'Due in 3 days', checked: false },
+  { id: '5', title: 'Draft project report', dueDate: 'Due in 4 days', checked: false },
+];
 
-export default function TasksScreen() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <MaterialIcons name="assignment" size={50} color={colors.primary} />
-        <Text style={styles.title}>Tasks</Text>
-        <Text style={styles.subtitle}>Manage your tasks</Text>
-      </View>
-      
-      <View style={styles.emptyState}>
-        <MaterialIcons name="task-alt" size={80} color={colors.light.secondary} />
-        <Text style={styles.emptyTitle}>No tasks yet</Text>
-        <Text style={styles.emptySubtitle}>Create your first task to get started</Text>
-      </View>
+const TaskItem = ({ item }) => (
+  <TouchableOpacity style={styles.taskItem}>
+    <View style={styles.taskCheckbox}>
+      {/* This is a simple square. You could use an icon here for a more sophisticated look */}
     </View>
-  );
-}
-
-// app/(tabs)/notifications.jsx - Notifications Screen  
-export function NotificationsScreen() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <MaterialIcons name="notifications" size={50} color={colors.primary} />
-        <Text style={styles.title}>Notifications</Text>
-        <Text style={styles.subtitle}>Stay updated</Text>
-      </View>
-      
-      <View style={styles.emptyState}>
-        <MaterialIcons name="notifications-none" size={80} color={colors.light.secondary} />
-        <Text style={styles.emptyTitle}>No notifications</Text>
-        <Text style={styles.emptySubtitle}>You're all caught up!</Text>
-      </View>
+    <View style={styles.taskTextContainer}>
+      <Text style={styles.taskTitle}>{item.title}</Text>
+      <Text style={styles.taskDueDate}>{item.dueDate}</Text>
     </View>
-  );
-}
+    <Icon name="chevron-forward-outline" size={24} color="#888"  onPress={() => router.push('/editTasks')}/>
+  </TouchableOpacity>
+);
 
-// app/(tabs)/profile.jsx - Profile Screen
-export function ProfileScreen() {
+const TasksScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <MaterialIcons name="person" size={50} color={colors.primary} />
-        <Text style={styles.title}>Profile</Text>
-        <Text style={styles.subtitle}>Your account settings</Text>
+        <Text style={styles.headerTitle}>Tasks</Text>
+        <TouchableOpacity>
+          {/* This button could navigate to a screen to create a new task */}
+          <Icon name="add-circle-outline" size={30} color="#000" onPress={() => router.push('/editTasks')} />
+          
+        </TouchableOpacity>
       </View>
-      
-      <View style={styles.emptyState}>
-        <MaterialIcons name="settings" size={80} color={colors.light.secondary} />
-        <Text style={styles.emptyTitle}>Profile Settings</Text>
-        <Text style={styles.emptySubtitle}>Customize your account</Text>
-      </View>
-    </View>
-  );
-}
 
-// Shared styles for all tab screens
+      {/* Tasks List */}
+      <FlatList
+        data={tasksData}
+        renderItem={({ item }) => <TaskItem item={item} />}
+        keyExtractor={item => item.id}
+        style={styles.tasksList}
+      />
+
+     
+    </SafeAreaView>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
-    paddingHorizontal: sizings.padding.large,
-    paddingTop: sizings.padding.xlarge,
+    backgroundColor: '#fff',
   },
-  
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: sizings.margin.xlarge,
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    marginTop: 15, 
+    
   },
-  
-  title: {
-    fontSize: sizings.fontSize.h1,
+  headerTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
-    color: colors.dark.primary,
-    marginTop: sizings.margin.small,
+    
   },
-  
-  subtitle: {
-    fontSize: sizings.fontSize.body,
-    color: colors.light.secondary,
-    marginTop: sizings.margin.xsmall,
-  },
-  
-  emptyState: {
+  tasksList: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  taskItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  taskCheckbox: {
+    width: 24,
+    height: 24,
+    borderWidth: 2,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    marginRight: 15,
+  },
+  taskTextContainer: {
+    flex: 1,
+  },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  taskDueDate: {
+    fontSize: 14,
+    color: '#888',
+  },
+  bottomTabBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    backgroundColor: '#fff',
+  },
+  tabItem: {
     alignItems: 'center',
   },
-  
-  emptyTitle: {
-    fontSize: sizings.fontSize.h2,
-    fontWeight: 'bold',
-    color: colors.dark.primary,
-    marginTop: sizings.margin.medium,
+  tabItemActive: {
+    alignItems: 'center',
   },
-  
-  emptySubtitle: {
-    fontSize: sizings.fontSize.body,
-    color: colors.light.secondary,
-    textAlign: 'center',
-    marginTop: sizings.margin.small,
+  tabText: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 4,
+  },
+  tabTextActive: {
+    fontSize: 12,
+    color: '#007bff',
+    marginTop: 4,
+    fontWeight: 'bold',
   },
 });
+
+export default TasksScreen;

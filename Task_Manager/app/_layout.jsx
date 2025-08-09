@@ -61,6 +61,16 @@ export default function RootLayout() {
         
         {/* Main app screens - for authenticated users */}
         <Stack.Screen name="(tabs)" />
+      <Stack.Screen
+      name='settings'
+      options={{ title: 'Settings', headerShown: false }}
+      />
+        
+        {/* Tasks screen */}
+        <Stack.Screen 
+          name="editTasks"
+          options={{ title: 'Edit Task', headerShown: false }}
+        />
         
         {/* Other screens */}
         <Stack.Screen 
